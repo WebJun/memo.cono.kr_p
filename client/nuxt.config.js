@@ -9,21 +9,28 @@ module.exports = {
 
   env: {
     apiUrl: process.env.API_URL || process.env.APP_URL + '/api',
-    appName: process.env.APP_NAME || 'Laravel Nuxt',
-    appLocale: process.env.APP_LOCALE || 'en',
+    appName: process.env.APP_NAME || 'Memo',
+    appLocale: process.env.APP_LOCALE || 'ko',
     githubAuth: !!process.env.GITHUB_CLIENT_ID
   },
 
   head: {
     title: process.env.APP_NAME,
-    titleTemplate: '%s - ' + process.env.APP_NAME,
+    // titleTemplate: '%s - ' + process.env.APP_NAME,
+    titleTemplate: process.env.APP_NAME,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      { hid: 'description', name: 'description', content: 'Memo' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href:
+          'https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css'
+      }
     ]
   },
 
@@ -42,13 +49,18 @@ module.exports = {
     '~plugins/i18n',
     '~plugins/vform',
     '~plugins/axios',
+    '~plugins/axios2',
     '~plugins/fontawesome',
     '~plugins/nuxt-client-init',
+    '~plugins/vue-alertify',
+    '~plugins/vue-cookies',
     { src: '~plugins/bootstrap', mode: 'client' }
   ],
 
   modules: [
-    '@nuxtjs/router'
+    '@nuxtjs/router',
+    '@nuxtjs/axios',
+    '@nuxtjs/pwa',
   ],
 
   build: {
@@ -68,5 +80,24 @@ module.exports = {
         }
       }
     }
-  }
+  },
+
+  manifest: {
+    name: 'Memo',
+    short_name: 'Memo',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#00a2ff',
+  },
+
+  workbox: {
+    offline: false,
+    runtimeCaching: [
+      {
+        urlPattern: "/*",
+        handler: "networkFirst",
+        method: "GET"
+      }
+    ]
+  },
 }

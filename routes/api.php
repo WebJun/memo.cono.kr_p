@@ -9,7 +9,10 @@ use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\MemoController;
+
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +24,14 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/memos', [MemoController::class, 'index']);
+    Route::post('/memos', [MemoController::class, 'save']);
+
+    // delete method 써야하지만, 멀티플 삭제여서 put으로 변경
+    Route::put('/memos', [MemoController::class, 'destroy']);
+});
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', [LoginController::class, 'logout']);

@@ -91,8 +91,13 @@ export default {
       // Fetch the user.
       await this.$store.dispatch('auth/fetchUser')
 
+      if (this.$route.query.backUri !== undefined) {
+        this.$router.push({ path: this.$route.query.backUri });
+        return false;
+      }
+
       // Redirect home.
-      this.$router.push({ name: 'home' })
+      this.$router.push({ name: 'memos.index' })
     }
   }
 }

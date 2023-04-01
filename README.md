@@ -1,123 +1,48 @@
-# Laravel-Nuxt
+## 프로젝트명
 
-<a href="https://github.com/cretueusebiu/laravel-nuxt/actions"><img src="https://github.com/cretueusebiu/laravel-nuxt/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/cretueusebiu/laravel-nuxt"><img src="https://poser.pugx.org/cretueusebiu/laravel-nuxt/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/cretueusebiu/laravel-nuxt"><img src="https://poser.pugx.org/cretueusebiu/laravel-nuxt/v/stable.svg" alt="Latest Stable Version"></a>
+-   메모 플랫폼
+-   https://memo.cono.kr/
 
-> A Laravel-Nuxt starter project template.
+## 기술 및 사용 이유
 
-<p align="center">
-<img src="https://i.imgur.com/NHFTsGt.png">
-</p>
+-   php7.4, laravel8
+-   node14.20.0, nuxt2, vue
+-   mariadb(mysql)
+-   laravel을 공부하던 중에, 세션이 아니라 JWT를 써보고 싶어졌고, [여기](https://github.com/cretueusebiu/laravel-nuxt)에서 잘 만들어진 것이 있어서 그대로 사용했다.
+-   세션은 로드밸런스를 사용시 불리하기 때문에 JWT를 사용해보고 싶었다.
 
-## Features
+## 프로젝트 설치 및 실행 방법
 
-- Nuxt 2
-- Laravel 8
-- SPA or SSR
-- Socialite integration
-- VueI18n + ESlint + Bootstrap 4 + Font Awesome 5
-- Login, register, email verification and password reset
+1. composer install
+2. https://github.com/cretueusebiu/laravel-nuxt 참고
 
-## Installation
+## 동기가 무엇이었나요?
 
-- `composer create-project --prefer-dist cretueusebiu/laravel-nuxt`
-- Edit `.env` and set your database connection details 
-- (When installed via git clone or download, run `php artisan key:generate` and `php artisan jwt:secret`)
-- `php artisan migrate`
-- `npm install`
+네이버 메모 플랫폼에 소스코드를 넣어놓고 재사용하던 중에  
+어느날 갑자기 개행 부분에 특수문자가 들어가는 가게 되었고,  
+복사 붙여넣기했을 때, 에러가 나게 되었다.
 
-## Usage
+## 이 프로젝트를 통해 무엇을 느끼셨나요?
 
-### Development
+-   laravel-nuxt의 개발 환경이 너무 좋았다. 변경사항이 있을 때, 자동으로 새로고침해주는 부분에서 너무 편리했다.(로컬 개발 환경에서만 가능한 줄 알았었다.)
+-   페이지 리로딩이 되지 않고 로그인이 된다는 점에서 큰 감동을 느꼈다.
+-   (기능이 적어도)필요한 기능만 있으면 충분히 잘 사용할 수 있다.
+-   항상 느끼는 것이만, 필요에 의해 만드는 것만큼 큰 동기부여는 없는 것 같다.
+-   처음에는 codeigniter 환경에서 CDN에서 가져와서 작업을 했고,  
+    laravel5.8로 옮기면서 개발 환경이 편해짐을 느꼈고,  
+    nuxt를 사용하면서 더욱더 큰 편리함을 느꼈다.
 
-```bash
-# start Laravel
-php artisan serve
+## 특징
 
-# start Nuxt
-npm run dev
-```
+-   네이버 메모의 UI와 비슷하다.
+-   규모가 매우 작다.
+-   메모의 제목이 없고, 내용을 바로 볼 수 있다.
+-   컨트롤+S로 저장, 컨트롤+D로 삭제할 수 있다.
+-   PWA 적용
 
-Access your application at `http://localhost:3000`.
+## 고민이 필요한 부분
 
-### Production
-
-```bash
-npm run build
-```
-
-### Enable SSR
-
-- Edit `client/nuxt.config.js` and set `ssr: true` 
-- Edit `.env` to set `APP_URL=http://api.example.com` and `CLIENT_URL=http://example.com`
-- Run `npm run build` and `npm run start`
-
-#### Nginx Proxy
-
-For Nginx you can add a proxy using the follwing location block:
-
-```
-server {
-    location / {
-        proxy_pass http://http://127.0.0.1:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
-```
-
-#### Process Manager
-
-In production you need a process manager to keep the Node server alive forever:
-
-```bash
-# install pm2 process manager
-npm install -g pm2
-
-# startup script
-pm2 startup
-
-# start process
-pm2 start npm --name "laravel-nuxt" -- run start
-
-# save process list
-pm2 save
-
-# list all processes
-pm2 l
-```
-
-After each deploy you'll need to restart the process:
-
-```bash
-pm2 restart laravel-nuxt 
-```
-
-Make sure to read the [Nuxt docs](https://nuxtjs.org/).
-
-## Socialite
-
-This project comes with GitHub as an example for [Laravel Socialite](https://laravel.com/docs/5.8/socialite).
-
-To enable the provider create a new GitHub application and use `https://example.com/api/oauth/github/callback` as the Authorization callback URL.
-
-Edit `.env` and set `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` with the keys form your GitHub application.
-
-For other providers you may need to set the appropriate keys in `config/services.php` and redirect url in `OAuthController.php`.
-
-## Email Verification
-
-To enable email verification make sure that your `App\User` model implements the `Illuminate\Contracts\Auth\MustVerifyEmail` contract.
-
-## Notes
-
-- This project uses [router-module](https://github.com/nuxt-community/router-module), so you have to add the routes manually in `client/router.js`.
-- If you want to separate this in two projects (client and server api), move `package.json` into `client/` and remove config path option from the scripts section. Also make sure to add the env variables in `client/.env`.
-
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+-   texrarea를 너무 크게 했을 때, 왼쪽 사이드바 영역이 깨져버린다
+-   textarea에 내용이 너무 많으면, 버벅인다
+-   메모가 많이 쌓이면 관리하기가 어렵다.
+-   정규식으로 검색하고 싶은 경우가 있다.
